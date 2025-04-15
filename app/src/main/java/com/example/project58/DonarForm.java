@@ -40,7 +40,15 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("ALL")
@@ -93,17 +101,61 @@ DatabaseReference reference;
         // Retrieve the email ID from shared preferences
         String emailid = sharedPreferences.getString("email","");
         DonarRecords = database.getReference().child("Donarform");
-        //Date picker dialog
-        Calendar ca = Calendar.getInstance();
-        day = ca.get(Calendar.DAY_OF_MONTH);
-        month = ca.get(Calendar.MONTH);
-        year = ca.get(Calendar.YEAR);
 
+        dt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DonarForm.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // Calculate the user's age
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year, month, dayOfMonth);
+                        Calendar currentDate = Calendar.getInstance();
+                        int age = currentDate.get(Calendar.YEAR) - selectedDate.get(Calendar.YEAR);
+                        if (age>18) {
+                            String selectedDateString = dayOfMonth + "/" +(month + 1)  + "/" + year;
+                            dt.setText(selectedDateString);
+                        } else {
+                            Toast.makeText(DonarForm.this, "Your age must be above 18 to become a donor" , Toast.LENGTH_SHORT).show();
+                            dt.setText("");
+                        }
+                    }
+                }, 2000, 0, 1); // Set an initial date in the date picker dialog
+                datePickerDialog.show();
+            }
+        });
+        //Date picker dialog
+
+        dt1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar ca = Calendar.getInstance();
+                day = ca.get(Calendar.DAY_OF_MONTH);
+                month = ca.get(Calendar.MONTH);
+                year = ca.get(Calendar.YEAR);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(DonarForm.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year, month, dayOfMonth);
+                        Calendar currentDate = Calendar.getInstance();
+                        String selectedDateString = dayOfMonth + "/" +(month + 1)  + "/" + year;
+                        dt1.setText(selectedDateString);
+                    }
+                }, year, month, day);
+                datePickerDialog.getDatePicker().setMinDate(ca.getTimeInMillis());
+                datePickerDialog.show();
+            }
+        });
+
+/*
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                 dt.setText(selectedDate);
+
             }
         },
                 year, month, day
@@ -113,12 +165,9 @@ DatabaseReference reference;
             public void onClick(View v) {
                 datePickerDialog.show();
             }
-        });
-        //Date picker dialog1
-        Calendar cal = Calendar.getInstance();
-        day = cal.get(Calendar.DAY_OF_MONTH);
-        month = cal.get(Calendar.MONTH);
-        year = cal.get(Calendar.YEAR);
+        });*/
+
+/*
         DatePickerDialog datePickerDialog1 = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -135,6 +184,7 @@ DatabaseReference reference;
                 datePickerDialog1.show();
             }
         });
+*/
 
 
         btn.setOnClickListener(new View.OnClickListener() {
@@ -151,10 +201,7 @@ DatabaseReference reference;
                 String email= E4.getText().toString();
                 String illness= E5.getText().toString();
                 String medication= E6.getText().toString();
-                if(!C1.isChecked()){
-                    Toast.makeText(DonarForm.this, "You must accept the terms and conditions to register", Toast.LENGTH_SHORT).show();
-                }
-                else if(name.isEmpty())
+                if(name.isEmpty())
                 {
                     Toast.makeText(DonarForm.this, "Please Enter Your Name", Toast.LENGTH_SHORT).show();
                 }
@@ -185,6 +232,9 @@ DatabaseReference reference;
                 else if(medication.isEmpty())
                 {
                     E6.setError("Please Mention Yes/No");
+                }
+                else if(!C1.isChecked()){
+                    Toast.makeText(DonarForm.this, "You must accept the terms and conditions to register", Toast.LENGTH_SHORT).show();
                 }
                 else{
 

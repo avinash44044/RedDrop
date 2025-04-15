@@ -2,10 +2,14 @@ package com.example.project58;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +35,7 @@ public class Profile extends AppCompatActivity {
     String UserID;
     Button btn;
     TextView T1,T2,T3,T4,T5,T6,T7;
+    AlertDialog.Builder builder;
     DatabaseReference ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +55,31 @@ public class Profile extends AppCompatActivity {
         T7=findViewById(R.id.textView13);
         ref=FirebaseDatabase.getInstance().getReference("Donarform");
         btn=findViewById(R.id.button2);
+        builder=new AlertDialog.Builder(this);
+        SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Profile.this,Home.class);
-                startActivity(intent);
+                builder.setIcon(R.drawable.ic_baseline_exit_to_app_24);
+                builder.setTitle("Logout").setMessage("Are you sure you want to logout?").setCancelable(true)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.remove("IsUserLogin");
+                                editor.clear();
+                                editor.commit();
+                                finish();
+                                Intent intent = new Intent(Profile.this,Home.class);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        }).show();
+
             }
         });
         //String currentmail="heerakushwah328@gmail.com";

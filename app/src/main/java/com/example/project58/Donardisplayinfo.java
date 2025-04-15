@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.project58.register.DRecords;
 import com.example.project58.register.MyAdapter;
@@ -23,6 +26,8 @@ import java.util.ArrayList;
 
 public class Donardisplayinfo extends AppCompatActivity {
 
+    EditText searchEditText;
+    Button searchButton;
     RecyclerView recyclerView;
     DatabaseReference database;
     ArrayList<DRecords> list;
@@ -37,7 +42,8 @@ public class Donardisplayinfo extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donardisplayinfo);
-
+        searchEditText = findViewById(R.id.searchEditText);
+        searchButton = findViewById(R.id.searchButton);
         recyclerView = findViewById(R.id.recycle);
         database = FirebaseDatabase.getInstance().getReference("Donarform");
         recyclerView.setHasFixedSize(true);
@@ -46,6 +52,24 @@ public class Donardisplayinfo extends AppCompatActivity {
         list = new ArrayList<>();
         myAdapter = new MyAdapter(this,list);
         recyclerView.setAdapter(myAdapter);
+
+searchButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        String text=searchEditText.getText().toString();
+        filter(text);
+    }
+
+    public void filter(String text) {
+        ArrayList<DRecords> filteredlist=new ArrayList<>();
+        for(DRecords item: list){
+            if(item.getGroup().toLowerCase().contains(text.toLowerCase())){
+                filteredlist.add(item);
+            }
+        }
+        myAdapter.filterlist(filteredlist);
+    }
+});
 
         database.addValueEventListener(new ValueEventListener() {
             @Override

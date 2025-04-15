@@ -37,6 +37,7 @@
             android:contextClickable="true"
             android:ellipsize="marquee"
             android:focusable="true"
+            android:textColor="@color/black"
             android:focusableInTouchMode="true"
             android:fontFamily="@font/varela_round"
             android:freezesText="true"
@@ -56,6 +57,7 @@
             android:fontFamily="@font/varela_round"
             android:maxWidth="120dp"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:text="sex"
             android:textSize="17sp" />
 
@@ -66,6 +68,7 @@
             android:fontFamily="@font/varela_round"
             android:maxWidth="120dp"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:text="bloodgroup"
             android:textSize="17sp" />
 
@@ -77,6 +80,7 @@
             android:contextClickable="true"
             android:ellipsize="marquee"
             android:focusable="true"
+            android:textColor="@color/black"
             android:focusableInTouchMode="true"
             android:fontFamily="@font/varela_round"
             android:freezesText="true"
@@ -87,8 +91,6 @@
             android:text="contact no"
             android:textSize="17sp" />
 
-
-
         <TextView
             android:id="@+id/inputAddress"
             android:layout_width="wrap_content"
@@ -96,12 +98,9 @@
             android:fontFamily="@font/varela_round"
             android:maxWidth="120dp"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:text="address"
             android:textSize="17sp" />
-
-
-
-
 
     </LinearLayout>
 
@@ -109,26 +108,21 @@
 
     <LinearLayout
         android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_marginStart="10dp"
         android:id="@+id/icons"
         android:gravity="right">
+        <Button
+            android:id="@+id/iop"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circledetail"
+            android:text="View More Details">
+        </Button>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:id="@+id/share"
-            android:tooltipText="Share"
-            android:src="@drawable/ic_baseline_share_24"/>
-
-        <ImageView
-            android:tooltipText="Call"
-            android:layout_width="40dp"
-            android:id="@+id/call"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_call_24"/>
     </LinearLayout>
 
 </RelativeLayout>

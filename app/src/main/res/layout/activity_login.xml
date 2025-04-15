@@ -97,7 +97,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+
             android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:text="Forget Your Password?"
             android:textAlignment="viewEnd"
-
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="10dp"/>
         <Button
@@ -120,7 +120,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_orange"
             android:text="Login"
             android:textColor="#ffffff"
